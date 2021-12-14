@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+<!--NOTES:
+    11.21.21 - dylan2 - separate out js and link it
+-->
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dylan McMahon</title>
+    
+        <link rel="stylesheet" href="../resources/dylancss.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@1,600&family=Old+Standard+TT:ital@1&family=Rubik&family=Zen+Kaku+Gothic+Antique&family=Zen+Kurenaido&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+
+        <script src="../resources/skrollr.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+    
+<body>
+      <div id="curtain"></div>   
+      <div id="div-of-pop-up-divs">          
+      </div>
+      <div id="containerofphotodivs">
+          <div id="photodiv">
+              <div id="photodiv2"></div>
+          </div>
+        
+      </div>
+      <header>
+          <div id="navigation" class="longheader">
+            <div id="left-span">
+              <p id = "container-in-middle-span">
+                <span id="myname">
+                  Dylan Rhon 
+                  <span id="portfolioSiteSpan"> McMahon</span>
+                </span>
+                  <p></p>
+
+                  <p id="container-for-summaries">
+                      <span id="postsummary"> Fine </span> 
+                      <span id="presummary"> artist</span> 
+                      <span id="summary"> located in the Bend, Oregon area.</span>
+                  </p>
+              </p>
+            </div>
+        
+            <div id="middle-span">
+                
+            </div>
+              
+              <div id="right-span">
+                <button id="gallerybutton" class ="navbuttons" onclick="adjustheader()">Gallery</button>
+                <button id="aboutmebutton" class ="navbuttons" onclick="adjustheader()">About me</button>  
+                <button id="contactbutton" class="navbuttons" onclick="adjustheader()">Contact</button>
+                <button id="locationbutton" class ="navbuttons" onclick="adjustheader()">Locations</button> 
+              </div>    
+          </div>
+    </header>
+<!--end header. begin portfolio div-->
+    <div id="portfolio">    
+        <div id="gallerydivheader" class="majordivheaders">    
+            <h3>Gallery</h3>
+            <button id="graphicsbutton" class="gallerybuttons">Classic</button>
+            <button id="paintingsbutton" class="gallerbuttons">ContemporY</button>
+        </div>
+
+        <div id="locationdivheader" class="majordivheaders">    
+          <h3>Locations</h3>
+        </div>
+
+        <div id="contactdivheader" class="majordivheaders">  
+            <h3>Contact</h3>
+        </div>
+
+        <div id="invisibledivheader" class="majordivheaders">    
+        </div>
+      
+        <div id="graphicsdiv" class="grayout majordiv">
+        </div>
+
+        <div id="paintingsdiv" class="grayout majordiv">   
+        </div>
+
+        <div id="locationdiv" class="grayout majordiv">
+          <div id = "test"> </div>
+        </div>
+
+        <div id="aboutmediv" class="grayout majordiv">
+          <p> This is a para about Dylan  lalalalal la lorem dylan are painting oils also something About
+            charcoal and how things are created and maybe where Dylan la la la paragraph.
+          </p>
+        </div>
+
+        <div id="contactdiv" class="grayout majordiv">
+              <div id = "test"> </div>
+              <form action="https://formsubmit.co/kriskildea@gmail.com" method="POST">
+                <h3>Name</h3><input type="text" name="name" required>
+                <h3>Email</h3><input type="email" name="email" required>
+                <h3>Phone</h3><input type="phone" name="phone" required>
+                <h3>What piece sparks your interest?</h3><input id="boxtopopulate" value="All pieces are interesting!" type="boxtopopulate" name="boxtopopulate">
+                <button type="submit">Send</button>
+              </form>
+        </div>   
+      </div>
+
+
+<!---End of Portfolio div.  Begin JS--->
+<script>
+var activeAccentColor = 'var(--color-1)';
+
+   function makePopupVisible(aLet, aNum){
+          var theElement = document.querySelector(`#${aLet}${aNum}popup`);
+          theElement.classList.remove("displaynone");
+          theElement.style.zIndex="12";
+          var theOriginalElement = document.querySelector(`#${aLet}${aNum}popup`);
+          var curtainElement = document.querySelector('#curtain');
+          curtainElement.style.display="block";
+        }
+
+    function makePopupDisappear(aLet, aNum){
+          var theElement = document.querySelector(`#${aLet}${aNum}popup`)
+          console.log(theElement + "make PopDisappear is mostly working (knock knock knock)");
+          theElement.classList.add("displaynone");
+          var curtainElement = document.querySelector('#curtain');
+          curtainElement.style.display='none';
+        }
+
+	  var s=skrollr.init();
+
+    var theIndex = 1;
+//Assigning tabindex to pictures in gallery
+    function makeAccessible(){
+          document.querySelector('#navigation').querySelectorAll('a').forEach(
+              function(e){ e.setAttribute("tabindex", theIndex);
+                theIndex++;}
+            )
+          document.querySelectorAll(".picture").forEach(function(e){    
+              e.setAttribute("tabindex", theIndex);
+                theIndex++;
+            })
+      }
+      //calling function to give pics tab index
+    makeAccessible(1);    
+       
+    //make nav buttons change colors  
+    
+                         
+    var currentSelectedNavButton = document.querySelector('#aboutmebutton');
+
+
+//Adding CLICK event listener to NAV buttons
+    document.querySelectorAll('.navbuttons').forEach(function(e){   
+        e.addEventListener('click', function(){
+            currentSelectedNavButton.style.color='var(--button-deselected-font-color)';
+            currentSelectedNavButton.style.backgroundImage='none';
+            //changing the value of global variable, currentSelectedNavButton ONLY if event was 'click'
+            currentSelectedNavButton=event.target;
+            //Click-->currentNavButton value changes--> activeAccentColorValueChanges
+            if(e.id==="contactbutton"){activeAccentColor='var(--color-1)';
+             }
+            else if(e.id==="aboutmebutton"){activeAccentColor='var(--color-2)'}
+            else if(e.id==="gallerybutton"){activeAccentColor='var(--color-3)'}
+            else if(e.id==="locationbutton"){activeAccentColor='var(--color-4)'};
+                currentSelectedNavButton.style.color=activeAccentColor;
+                currentSelectedNavButton.style.backgroundImage='url("../resources/swirl.png")';
+                    } )    
+                })
+
+
+//function that makes divs visble
+     function makeSelectedMajorDivVisible(idDivToShow, classToSearchWithin){ 
+          //find all elements within 'classToSearchWithin' and...          
+          document.querySelectorAll(classToSearchWithin).forEach(function(e){
+              //go through each element within class and make sure it has class 'displaynone' and does not have 'here' class...
+              if(e.classList.contains("here")
+              ){e.classList.remove("here");
+                }   
+             if(!e.classList.contains("displaynone")){
+                 e.classList.add("displaynone");
+             }
+            }
+            )
+          //name the div(ID) that I want to show   
+          var theMajorDiv = document.getElementById(idDivToShow); 
+          //add'here' to classlist of selected div
+          theMajorDiv.classList.remove('displaynone');
+          theMajorDiv.classList.add('here');
+
+          if(idDivToShow=='#aboutmediv'){document.querySelectorAll('.majordivheaders').forEach(function(d){
+            d.style.display="none"
+          })}
+            portfolioFadeIn();
+      }
+
+      function portfolioFadeOut(){
+          $('#portfolio').fadeOut(200);
+      }
+
+      function portfolioFadeIn(){
+          $('#portfolio').fadeIn(200);
+      }
+
+      function makeSepia(theIdOfElementWithIdSymbol,theNumber){
+        
+        document.querySelector(theIdOfElementWithIdSymbol).style.filter=`sepia(${theNumber})`
+      }
+
+  //function to create photodiv2    
+  function createPhotoDiv2(backgroundUrl, positionLeftOrRight){document.querySelector('#photodiv2').style.backgroundImage=`url(${backgroundUrl})`;
+          document.querySelector('#photodiv2').style.backgroundSize='contain';
+          document.querySelector('#photodiv2').style.backgroundPosition=positionLeftOrRight;
+          document.querySelector('#photodiv2').style.marginTop='0vh';
+          document.querySelector('#photodiv2').style.position='absolute';
+          document.querySelector('#photodiv2').style.height='100vh';
+          document.querySelector('#photodiv2').style.width='100vw';
+          document.querySelector('#photodiv2').style.backgroundRepeat='no-repeat';}
+
+
+  function createPhotoDiv(backgroundUrl1, rightOrLeft){
+          document.querySelector('#photodiv').style.backgroundImage=`url(${backgroundUrl1})`;
+          document.querySelector('#photodiv').style.backgroundSize='contain';
+          document.querySelector('#photodiv').style.backgroundPosition=rightOrLeft;
+          document.querySelector('#photodiv').style.marginTop='23vh';
+        }
+
+          
+//connecting the actions of making divs visible and changing the backgrounds with their selected buttons
+  document.querySelector('#gallerybutton').addEventListener("click", 
+        function(){
+        makeSelectedMajorDivVisible('gallerydivheader', '.majordivheaders');
+        makeSelectedMajorDivVisible('paintingsdiv', '.majordiv');
+        document.querySelector('#photodiv').style.backgroundImage='none';
+        document.querySelector('#photodiv').style.backgroundSize='cover';
+        document.querySelector('#photodiv').style.backgroundPosition='left';
+        document.querySelector('#photodiv').style.marginTop='8vh';
+        document.querySelector('#photodiv2').style.backgroundImage='none';
+        document.querySelector('body').style.backgroundColor="var(--color-4)";
+        if(document.querySelector('#paintingsdiv')){
+          document.querySelector('#paintingsdiv').style.marginLeft='15vw';
+          document.querySelector('#paintingsdiv').style.marginRight='15vw';
+          document.querySelector('h3').style.color=activeAccentColor;
+          theCurrentNameOfArray=arrayOfPaintingsParas;
+          makeAccessible()}
+        else if(document.querySelector('#graphicsdiv')){
+          document.querySelector('#graphicsdiv').style.marginLeft='15vw';
+        document.querySelector('#graphicsdiv').style.marginRight='15vw';
+          theCurrentNameOfArray=arrayOfGraphicsParas;
+          makeAccessible();}
+       // ifHasClassRemoveItFrom('.contact-photodiv-background');
+  
+     // ifHasClassRemoveItFrom('.location-photodiv-background');
+     // document.querySelector('#photodiv').classList.add('.gallery-photodiv-background');
+        }
+        )
+   
+  document.querySelector('#contactbutton').addEventListener("click", function(){
+    makeSelectedMajorDivVisible('contactdivheader', '.majordivheaders');
+    makeSelectedMajorDivVisible('contactdiv', '.majordiv');
+    document.querySelector('#photodiv').style.backgroundImage='url("../resources/contact1.png")';
+     document.querySelector('#photodiv').style.backgroundSize='contain';
+     document.querySelector('#photodiv').style.backgroundPosition='left';
+     document.querySelector('#photodiv').style.marginTop='8vh';
+    createPhotoDiv2("../resources/contact2.1.png", 'left');
+     document.querySelector('#contactdiv').style.marginLeft='31vw';
+     document.querySelector('#contactdiv').style.marginRight='5vw';
+     document.querySelector('body').style.backgroundColor="white";
+     document.querySelectorAll('h3').forEach(function(e){
+      e.style.color=activeAccentColor;
+     })
+                                  
+  })
+
+  document.querySelector('#locationbutton').addEventListener("click", function(){
+    makeSelectedMajorDivVisible('locationdivheader', '.majordivheaders');
+    makeSelectedMajorDivVisible('locationdiv', '.majordiv');
+    document.querySelector('#photodiv').style.backgroundImage='url("../resources/webdevelopmentbackground1.png")';
+     document.querySelector('#photodiv').style.backgroundSize='contain';
+     document.querySelector('#photodiv').style.backgroundPosition='right';
+     document.querySelector('#photodiv').style.marginTop='8vh';
+      createPhotoDiv2("../resources/webdevelopmentbackground2.png", 'right')
+     document.querySelector('#locationdiv').style.marginLeft='5vw';
+     document.querySelector('#locationdiv').style.marginRight='31vw';
+     document.querySelector('body').style.backgroundColor='var(--color-4)';
+     theCurrentNameOfArray=arrayOfWebParas;                              
+  })
+
+  document.querySelector('#aboutmebutton').addEventListener("click", function(){
+      makeSelectedMajorDivVisible('invisibledivheader', '.majordivheaders');
+      makeSelectedMajorDivVisible('aboutmediv', '.majordiv');
+     createPhotoDiv("../resources/homepage.png", 'right');
+    createPhotoDiv2("../resources/homepage2.png", 'right');
+     document.querySelector('#aboutmediv').style.marginLeft='5vw';
+     document.querySelector('#aboutmediv').style.marginRight='31vw';
+     document.querySelector('body').style.backgroundColor='var(--color-4)';                             
+     })
+
+     
+
+  /*determining which page to show at site onload*/
+    makeSelectedMajorDivVisible('aboutmediv', '.majordiv');
+    makeSelectedMajorDivVisible('invisibledivheader', '.majordivheaders');
+    createPhotoDiv("../resources/homepage.png", 'right');
+    document.querySelector('#photodiv2').style.backgroundImage='none';
+    document.querySelector('#aboutmediv').style.marginLeft='5vw';
+    document.querySelector('#aboutmediv').style.marginRight='31vw';
+    document.querySelector('#aboutmebutton').style.backgroundImage='../resources/swirl.png'
+
+  /*adding effects to buttons within specific pages*/
+  document.querySelector('#graphicsbutton').addEventListener("click", function(){
+    console.log('graphicsbutton can feel.')     
+    makeSelectedMajorDivVisible('graphicsdiv','.majordiv');    
+                  
+  });
+
+  document.querySelector('#paintingsbutton').addEventListener("click", function(){
+    console.log('paintingsbutton can feel.')    
+    makeSelectedMajorDivVisible('paintingsdiv','.majordiv');                         
+  });
+
+   /*Please come back to and call this function when I want it :) */   
+
+      function adjustheader(){
+        var nav = document.querySelector('#navigation');
+       if(event){            
+          //For all but main page buttons... 
+           if(event.target.id === "gallerybutton" 
+            || event.target.id === "locationbutton" 
+            || event.target.id === "contactbutton"){
+                //if has class of 'longheader', replace with 'shortheader'
+                        if(nav.classList.contains('longheader')){
+                            document.querySelector('#summary').classList.remove('opacityone');
+                            document.querySelector('#summary').classList.add('opacitynone');
+                            document.querySelector('#postsummary').classList.remove('opacityone');
+                            document.querySelector('#postsummary').classList.add('opacitynone');
+                            document.querySelector('#postsummary').classList.add('opacitynone');
+                            document.querySelector('#portfolioSiteSpan').classList.remove('opacityone');
+                            document.querySelector('#portfolioSiteSpan').classList.add('opacitynone');
+                            nav.classList.remove('longheader');
+                            nav.classList.add('shortheader');
+                             }
+                                }
+            //if the 'about me button was clicked...'                
+            else if(event.target.id === "aboutmebutton"){
+                            //and if #navigation has a class of 'shortheader', replace it with 'longheader'...
+                            if(nav.classList.contains('shortheader')){
+                                document.querySelector('#summary').classList.add('opacityone');
+                                document.querySelector('#summary').classList.remove('opacitynone');
+                                document.querySelector('#postsummary').classList.add('opacityone');
+                                document.querySelector('#postsummary').classList.remove('opacitynone');
+                                document.querySelector('#portfolioSiteSpan').classList.remove('opacitynone');
+                                document.querySelector('#portfolioSiteSpan').classList.add('opacityone');
+                                nav.classList.remove('shortheader');
+                                nav.classList.add('longheader');
+                              //  margin-top: 10vh;
+                                //padding: 7vh;
+                                 //height: 5vh;
+
+                                 }
+            }  
+        }   
+      }
+
+
+
+//arrays that will create page;
+ 
+    var arrayOfGraphicsParas=["g0",
+  "g1",
+  "g2",
+  "g3",
+  "g4", 
+  "g5", 
+  "g6", 
+  "g7"];
+
+  var arrayOfPaintingsParas=["p0",
+  "p1",
+  "p2",
+  "p3",
+  "p4", 
+  "p5", 
+  "p6", 
+  "p7",
+  "p8",
+  "p9", 
+
+];
+
+var arrayOfWebParas=["w0",
+  "w1",
+  "w2",
+  "w3", 
+  "w4", 
+];
+
+function logToConsole(){
+    console.log("event working on  " + this.target)
+}
+
+var theCurrentPopUpNum=null;
+var theCurrentPopUpLetter=null;
+var theCurrentNameOfArray = null;
+
+
+function rightArrow(){
+deletePopup();
+        theCurrentPopUpNum=JSON.parse(theCurrentPopUpNum);
+        if(theCurrentPopUpNum<theCurrentNameOfArray.length){
+            theCurrentPopUpNum+=1;}
+
+        createPopup(theCurrentPopUpLetter, theCurrentPopUpNum, theCurrentNameOfArray);
+        console.log('Kritin, you are doing a great job, and this is looking like fantastic!  RIGHTARROW() IS WORKING. You rock! :)')
+        }
+
+function leftArrow(){
+deletePopup();
+theCurrentPopUpNum=JSON.parse(theCurrentPopUpNum);
+if(theCurrentPopUpNum>0){
+  theCurrentPopUpNum-=1;}
+else{document.querySelector(`${theCurrentPopUpLetter}${theCurrentPopUpNum}popupy`).style.opacity=".3"}
+    createPopup(theCurrentPopUpLetter, theCurrentPopUpNum, theCurrentNameOfArray);
+    console.log('Kritin, you are doing a great job, and this is looking like fantastic! LEFTARROW() IS WORKING You rock! :)')
+}
+
+function populateContactFormWithCurrentCounter(){
+  console.log(toString(theCurrentPopUpLetter));
+  var stringToInput = theCurrentPopUpLetter + theCurrentPopUpNum;
+  document.querySelector('#boxtopopulate').value=stringToInput;
+  
+}
+
+
+function functionToCallWithinCreatePopupFunction(typeOfElementToCreate, className, idName){
+  //creating floating div with class of x
+  var xDiv=document.createElement(typeOfElementToCreate);
+            xDiv.classList.add(className);
+            xDiv.setAttribute('id', `${letter}${num}xdiv`);
+
+}
+function createPopup(letter, num, nameOfArray){
+        //create <div class = "popup" id="g8popup">   </div>
+        var popUpDiv = document.createElement("div");
+        popUpDiv.setAttribute('id',`${letter}${num}popup`);
+        popUpDiv.classList.add('popup');
+        popUpDiv.style.zIndex="13";
+        var thebody = document.querySelector('body');
+        thebody.appendChild(popUpDiv);
+
+            
+            //creating floating div with class of x
+            var xDiv=document.createElement("div");
+            xDiv.classList.add('x');
+            xDiv.setAttribute('id', `${letter}${num}xdiv`);
+
+             //creating floating div with class of w
+             var wDiv=document.createElement("div");
+            wDiv.classList.add('w');
+            wDiv.setAttribute('id', `${letter}${num}wdiv`);
+
+             //creating floating div with class of y
+             var yDiv=document.createElement("div");
+            yDiv.classList.add('y');
+            yDiv.setAttribute('id', `yiv`);
+
+            //create floating xA
+            var xA = document.createElement('a');
+            //adding id "g8popupx" to xA
+            xA.setAttribute('id',`${letter}${num}popupx`)
+            //gluing xA to floating xDiv
+            xDiv.appendChild(xA);
+
+            //create floating wA
+            var wA = document.createElement('a');
+            //adding id "g8popupw" to wA
+            wA.setAttribute('id',`${letter}${num}popupw`)
+            //gluing wA to floating xDiv
+            wDiv.appendChild(wA);
+
+             //create floating yA
+             var yA = document.createElement('a');
+            //adding id "g8popupy" to yA
+            yA.setAttribute('id',`${letter}${num}popupy`)
+            //gluing yA to floating yDiv
+            yDiv.appendChild(yA);
+            
+
+            //glueing xDiv to thDiv
+            popUpDiv.appendChild(xDiv);
+            //creating floating xNode
+            var xNode=document.createTextNode("X");
+            //gluing floating Xnode to xA
+            xA.appendChild(xNode);
+        //WHY IS THIS NOT WORKING EXPECTEDLY?  ?????????
+            popUpDiv.style.zIndex="14";
+
+            popUpDiv.appendChild(wDiv);
+            //creating floating wNode
+            var wNode=document.createTextNode(">");
+            //gluing floating wnode to wA
+            wA.appendChild(wNode);
+            popUpDiv.style.zIndex="14";
+
+            //glueing yDiv to thDiv
+            popUpDiv.appendChild(yDiv);
+            //creating floating xNode
+            var yNode=document.createTextNode("<");
+            //gluing floating Ynode to yA
+            yA.appendChild(yNode);
+            popUpDiv.style.zIndex="14";
+
+
+            //create button
+             //creating floating div with class of b
+             var bDiv=document.createElement("button");
+            bDiv.classList.add('b');
+            bDiv.setAttribute('id', `${letter}${num}bdiv`);
+
+            //glueing bDiv to thDiv
+            popUpDiv.appendChild(bDiv);
+            //creating floating bNode
+            var bNode=document.createTextNode("B");
+            //gluing floating bnode to 
+            bDiv.appendChild(bNode);
+            popUpDiv.style.zIndex="14";
+            bDiv.addEventListener('click', function(){
+        //WHY IS THIS NOT WORKING???? 11.19.12   
+            makeSelectedMajorDivVisible('contactdivheader', '.majordivheaders');
+            makeSelectedMajorDivVisible('contactdiv', '.majordiv');
+            document.querySelector('#photodiv').style.backgroundImage='url("../resources/contact1.png")';
+             document.querySelector('#photodiv').style.backgroundSize='contain';
+            document.querySelector('#photodiv').style.backgroundPosition='left';
+            document.querySelector('#photodiv').style.marginTop='8vh';
+            createPhotoDiv2("../resources/contact2.1.png", 'left');
+            document.querySelector('#contactdiv').style.marginLeft='31vw';
+            document.querySelector('#contactdiv').style.marginRight='5vw';
+            //document.querySelector(`${currentSelectedNavButton}`).style.color='var(--button-deselected-font-color)';
+            //document.querySelector(`${currentSelectedNavButton}`).style.backgroundImage='none';
+            currentSelectedNavButton.style.color='var(--button-deselected-font-color)';
+            currentSelectedNavButton.style.backgroundImage='none';
+            currentSelectedNavButton=document.querySelector('#contactbutton');
+            currentSelectedNavButton.style.color='var(--button-selcted-font-color)';
+            currentSelectedNavButton.style.backgroundImage='url("../resources/swirl.png")';
+            
+            document.querySelector('body').style.backgroundColor='white';
+            
+              populateContactFormWithCurrentCounter();
+              createPhotoDiv2("../resources/contact2.1.png")
+              
+            })
+
+            //creating p within popup and inside text node
+            var deletableP = document.createElement('p');
+            deletableP.setAttribute('id','deletablePElement');
+            popUpDiv.appendChild(deletableP);
+            var deletablePTextNode = document.createTextNode(`${nameOfArray[num]}`);
+            deletableP.appendChild(deletablePTextNode);
+
+            //adding a picture with class of 'popuppicture'
+            var picturePath =`../resources/${letter}${num}.jpg`;
+            var picWithinPopUpDiv = document.createElement("img");
+           
+            picWithinPopUpDiv.src=picturePath;
+            popUpDiv.appendChild(picWithinPopUpDiv);
+            picWithinPopUpDiv.style.position='relative';
+            picWithinPopUpDiv.style.left="5%";
+
+
+          //adding initiation of curtain element
+            var curtainElement = document.querySelector('#curtain');
+            curtainElement.style.display="block";
+            console.log(curtainElement.style.zIndex + " is the curtain's current zIndex");
+           // curtain.style.zIndex="4";
+
+        document.querySelector(`#${letter}${num}popupw`).addEventListener('click',function(){
+          rightArrow();
+            console.log("Kristin, good job.  You have come a long way.  A very long way and this is looking goood!")
+        })
+
+        document.querySelector(`#${letter}${num}popupy`).addEventListener('click',function(){
+          leftArrow();  
+          console.log("Kristin, good job.  You have come a long way.  A very long way and this is looking goood!")
+        })
+
+        document.querySelector(`#${letter}${num}bdiv`).addEventListener('click',function(){
+            deletePopup();
+           
+            document.querySelector('#gallerydivheader').classList.add('displaynone');           
+           if(!document.querySelector('#graphicsdiv').classList.contains('displaynone')){
+              document.querySelector('#graphicsdiv').classList.add('displaynone');
+              createPhotoDiv2("../resources/homepage2.png", 'right');
+            }
+           else if(!document.querySelector('#paintingsdiv').classList.contains('displaynone')){
+              document.querySelector('#paintingsdiv').classList.add('displaynone'); 
+              createPhotoDiv2("../resources/homepage2.png", 'right');
+              
+            }
+            else if(!document.querySelector('#locationdiv').classList.contains('displaynone')){
+              document.querySelector('#locationdiv').classList.add('displaynone'); 
+            }
+
+            makeSelectedMajorDivVisible('contactdiv', '.majordivheaders');
+            //unselect all nav buttons
+            document.querySelectorAll('.navbutton').forEach(function(e){
+                e.style.color="var(--button-deselected-font-color)";
+                e.style.backgroundImage='none';
+            }
+            )
+
+            document.querySelector('#contactbutton').style.color=activeAccentColor;
+            console.log("Kristin, popupB, good job.  You have come a long way.  A very long way and this is looking goood!")
+            theCurrentPopUpNum='All these pieces are interesting!';
+          })
+            
+        document.querySelector(`#${letter}${num}popupx`).addEventListener('click', deletePopup)   
+        document.querySelector('#curtain').addEventListener('click', deletePopup)   
+
+        theCurrentPopUpNum=num;
+        theCurrentPopUpLetter=letter;
+        //theCurrentNameOfArray=nameOfArray;
+
+        console.log(`${popUpDiv.style.zIndex} is the popups zindex`);
+  }
+
+  function deletePopup(){
+            var elem = document.querySelector(`${theCurrentPopUpLetter}${theCurrentPopUpNum}popup`);
+                var targetID = this.id;
+                var guessing = document.querySelector(`#${targetID}`);
+                var currentbody = document.querySelector("body");
+                //console.log(currentbody);
+
+          var elem=document.querySelector(`#${theCurrentPopUpLetter}${theCurrentPopUpNum}popup`);
+          if(document.querySelector(`#${theCurrentPopUpLetter}${theCurrentPopUpNum}popup`)){
+              elem.remove();}        
+          var curtainElement = document.querySelector('#curtain');
+              curtainElement.style.display='none';
+                curtainElement.classList.add("displaynone");
+                console.log(curtainElement.style.zIndex + " is the z-index of the curtain element");
+        }
+   
+
+//function that creates divs within majordiv
+function createMajorDivImgs(aNum,aLetter,idSignAndDivToAppend){
+      var pPic = document.createElement("img");
+      pPic.setAttribute('id',`${aLetter}${aNum}`);
+      pPic.src=`../resources/${aLetter}${aNum}.jpg`;
+      pPic.classList.add('grayout');
+      pPic.classList.add('picture');
+      document.querySelector(idSignAndDivToAppend).appendChild(pPic);
+}
+
+for(i=0; i<arrayOfGraphicsParas.length;i++){
+createMajorDivImgs(i,'g','#graphicsdiv');
+}
+
+for(i=0; i<arrayOfPaintingsParas.length;i++){
+createMajorDivImgs(i,'p','#paintingsdiv');
+}
+
+for(i=0; i<arrayOfWebParas.length;i++){
+createMajorDivImgs(i,'w','#locationdiv');
+}
+
+//creating a function that runs the calling of "createPopup" many times
+for(let i=0; i<arrayOfGraphicsParas.length; i++){
+document.querySelector(`#g${i}`).addEventListener('click',function(){
+  createPopup('g',`${i}`, arrayOfGraphicsParas);
+})
+}
+
+for(let i=0; i<arrayOfPaintingsParas.length; i++){
+document.querySelector(`#p${i}`).addEventListener('click',function(){
+  createPopup('p',`${i}`, arrayOfPaintingsParas);
+})
+}
+
+for(let i=0; i<arrayOfWebParas.length; i++){
+document.querySelector(`#w${i}`).addEventListener('click',function(){
+  createPopup('w',`${i}`, arrayOfWebParas);
+})
+}
+
+function roundFunction(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
+}
+
+document.addEventListener('mouseover', printMousePos, true);
+function printMousePos(e){
+
+      cursorX = e.pageX;
+      cursorY= e.pageY;
+      var theNumeral = Math.round(cursorX)
+      var smallNum = theNumeral*.00087;
+      var smallRoundedNum = roundFunction((smallNum*4), 1);
+      var amountToChangeEyeColor = 1-smallRoundedNum;
+      var smallRoundedNumberString= toString(amountToChangeEyeColor);
+      var slicedSmallRoundedNumberString= smallRoundedNumberString.substr(1);  
+
+      var theNumeralY = Math.round(cursorY)
+      var smallNumY = theNumeralY*.00087;
+      var smallRoundedNumY = roundFunction((smallNumY*2), 1);
+      var amountToChangeEyeColorY = 1-smallRoundedNumY;
+      var smallRoundedNumberStringY= toString(amountToChangeEyeColorY);
+      var slicedSmallRoundedNumberStringY= smallRoundedNumberStringY.substr(1);  
+
+
+      document.querySelector('#photodiv2').style.marginLeft=`${smallRoundedNum}px`;
+      document.querySelector('#photodiv2').style.transform=`translateX:(${smallRoundedNum})`;
+      document.querySelector('#photodiv2').style.filter=`saturate(${amountToChangeEyeColor})`;
+
+      document.querySelector('#photodiv2').style.marginTop=`${smallRoundedNumY}px`;
+      document.querySelector('#photodiv2').style.transform=`translateY:(${smallRoundedNumY})`;
+      document.querySelector('#photodiv2').style.filter=`saturate(${amountToChangeEyeColorY})`;
+   
+      
+}
+
+  
+
+createPhotoDiv2("../resources/homepage2.png", 'right');
+
+
+      </script>
+     
+        </body>
+</html>

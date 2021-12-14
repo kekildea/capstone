@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<!--NOTES:
+    11.21.21 - dylan2 - separate out js and link it
+-->
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <title>Dylan McMahon</title>
+        <meta name="viewport"content="width=device-width, initial-scale=1.0">
+    
+        <link rel="stylesheet" type= "text/css" href="../resources/dylan6smallcss.css" media = "screen and (max-width:799px)">
+        <link rel="stylesheet" type= "text/css" href="../resources/dylan6css.css" media = "screen and (min-width:800px)">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@1,600&family=Old+Standard+TT:ital@1&family=Rubik&family=Zen+Kaku+Gothic+Antique&family=Zen+Kurenaido&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+
+        <script src="../resources/skrollr.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+    
+<body>
+      <div id="curtain"></div>   
+      <div id="div-of-pop-up-divs">          
+      </div>
+      <div id="containerofphotodivs" style="position: fixed;">
+          <div id="photodiv">
+              <div id="photodiv2"></div>
+          </div>
+        
+      </div>
+      <header>
+          <div id="navigation" class="longheader">
+            <div id="left-span">
+              <p id = "container-in-middle-span">
+                <span id="myname">
+                  Dylan Rhon 
+                  <span id="portfolioSiteSpan"> McMahon</span>
+                </span>
+                  <p></p>
+
+                  <p id="container-for-summaries">
+                      <span id="postsummary">Dylan Rhon: expert</span> 
+                      <span id="presummary"> fine artist</span> 
+                      <span id="summary"> located outside of the Bend, OR area.</span>
+                  </p>
+              </p>
+            </div>
+        
+            <div id="middle-span">
+                
+            </div>
+              
+              <div id="right-span">
+                <button id="gallerybutton" class ="navbuttons" style="text-shadow: 2px 2px #ddd" onclick="adjustheader()"> Gallery </button>
+                <button id="aboutmebutton" class ="navbuttons" style="text-shadow: 2px 2px #ddd" onclick="adjustheader()"> About Me </button>  
+                <button id="contactbutton" class="navbuttons" style="text-shadow: 2px 2px #ddd" onclick="adjustheader()"> Contact </button>
+                <button id="locationbutton" class ="navbuttons" style="text-shadow: 2px 2px #ddd" onclick="adjustheader()">Locations</button> 
+              </div>    
+          </div>
+    </header>
+<!--end header. begin portfolio div-->
+    <div id="portfolio">    
+        <div id="gallerydivheader" class="majordivheaders">    
+            <h3>Gallery</h3>
+            <button id="graphicsbutton" style="text-shadow: 2px 2px #edc" class="gallerybuttons">Contemporary</button>
+            <button id="paintingsbutton" style="text-shadow: 2px 2px #edc" class="gallerbuttons">Classic</button>
+        </div>
+
+        <div id="locationdivheader" class="majordivheaders">    
+            <h3>Locations</h3>
+            <button id="upcominglocationbutton" style="text-shadow: 2px 2px #ddd" class="locationbuttons">Upcoming Locations</button>
+            <button id="presentlocationbutton" style="text-shadow: 2px 2px #ddd" class="locationbuttons">Present Locations</button>
+        </div>
+
+       
+          
+             <!-- <div id="presentlocationdiv" class="grayout majordiv">  
+                  present 
+              </div>
+              <div id="upcominglocationdiv" class="grayout majordiv">   
+                  upcoming
+              </div>-->
+   
+           
+
+        
+
+        <div id="contactdivheader" class="majordivheaders">  
+            <h3>Contact</h3>
+            <p id="contactp">Dylan welcomes calls and texts to 541 231 6068.</p>
+           
+        </div>
+
+        <div id="invisibledivheader" class="majordivheaders">    
+        </div>
+      
+        <div id="graphicsdiv" class="grayout majordiv">
+        </div>
+
+        <div id="paintingsdiv" class="grayout majordiv">   
+        </div>
+
+        <div id="upcominglocationdiv" class="grayout majordiv">
+            <img src="../resources/g1.jpg" alt="location pic">
+        </div>
+
+        <div id="presentlocationdiv" class="grayout majordiv">   
+            <img src="../resources/swirl.png" alt="location pic">
+        </div>
+
+        
+    
+
+        <div id="aboutmediv" class="grayout majordiv">
+          <p> This is a para about Dylan  lalalalal la lorem dylan are painting oils also something About
+            charcoal and how things are created and maybe where Dylan la la la paragraph.
+          </p>
+        </div>
+
+        <div id="contactdiv" class="grayout majordiv">
+              <div id = "test"> </div>
+              <form action="https://formsubmit.co/kriskildea@gmail.com" method="POST">
+                <h3>Name</h3><input type="text" name="name" required>
+                <h3>Email</h3><input type="email" name="email" required>
+                <h3>Phone</h3><input type="phone" name="phone" required>
+                <h3>What piece sparks your interest?</h3><input id="boxtopopulate" value="All pieces are interesting!" type="boxtopopulate" name="boxtopopulate">
+                <input type="hidden" name="_next" value="https://dylanmcmahon.surge.sh/dylanthankyou.html">
+                <button type="submit">Send</button>
+              </form>
+        </div>   
+      </div>
+
+
+<!---End of Portfolio div.  Begin JS--->
+     
+        <script src ="dylan6.js" type="text/javascript"></script>
+      
+     
+        </body>
+</html>
